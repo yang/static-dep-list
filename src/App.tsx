@@ -1,24 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useMemo, useState } from "react";
+import logo from "./logo.svg";
+import "./App.css";
 
 function App() {
+  const [state, setState] = useState([0]);
+  // good:
+  // const blah = useMemo(() => new Set(state), [JSON.stringify(state)]);
+  // bad:
+  const blah = useMemo(() => new Set(state), state);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <button
+        onClick={() => {
+          setState([...state, state.length]);
+        }}
+      >
+        Grow
+      </button>
+      {JSON.stringify(Array.from(blah.keys()))}
+      {JSON.stringify(state)}
     </div>
   );
 }
